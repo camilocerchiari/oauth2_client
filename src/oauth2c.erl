@@ -31,6 +31,7 @@
 -export([client/4]).
 -export([client/5]).
 
+-export([retrieve_access_token/2]).
 -export([retrieve_access_token/4]).
 -export([retrieve_access_token/5]).
 -export([retrieve_access_token/6]).
@@ -102,6 +103,13 @@ client(Type, URL, ID, Secret, Scope) ->
           , secret    = Secret
           , scope     = Scope
           }.
+
+-spec retrieve_access_token(Client, Options) ->
+    {ok, Headers::headers(), client()} | {error, Reason :: binary()} when
+    Client  :: client(),
+    Options :: options().
+retrieve_access_token(Client, Options) ->
+  do_retrieve_access_token(Client, Options).
 
 -spec retrieve_access_token(Type, URL, ID, Secret) ->
     {ok, Headers::headers(), client()} | {error, Reason :: binary()} when
