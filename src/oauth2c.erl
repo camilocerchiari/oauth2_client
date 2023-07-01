@@ -242,17 +242,18 @@ do_retrieve_access_token(Client, Opts0) ->
           ExpiresIn -> erlang:system_time(second) + ExpiresIn
         end,
       RefreshToken = maps:get(<<"refresh_token">>, Body, Client#client.refresh_token),
-      Result = #client{ grant_type    = Client#client.grant_type
-                      , auth_url      = Client#client.auth_url
-                      , access_token  = AccessToken
-                      , refresh_token = RefreshToken
-                      , token_type    = get_token_type(TokenType)
-                      , id            = Client#client.id
-                      , secret        = Client#client.secret
-                      , scope         = Client#client.scope
-                      , service       = Client#client.service
-                      , expire_time   = ExpireTime
-                      },
+      Result = #{
+        grant_type    => Client#client.grant_type,
+        auth_url      => Client#client.auth_url,
+        access_token  => AccessToken,
+        refresh_token => RefreshToken,
+        token_type    => get_token_type(TokenType),
+        id            => Client#client.id,
+        secret        => Client#client.secret,
+        scope         => Client#client.scope,
+        service       => Client#client.service,
+        expire_time   => ExpireTime
+      },
       {ok, Headers, Result};
     {error, _, _, Reason} ->
       {error, Reason};
